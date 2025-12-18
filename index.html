@@ -21,7 +21,7 @@
             --shadow-color: rgba(56, 189, 248, 0.1);
             --glow-color: rgba(56, 189, 248, 0.15);
             --section-title-bg: #0f172a;
-            --nav-bg: rgba(15, 23, 42, 0.8);
+            --nav-bg: rgba(15, 23, 42, 0.95); /* Thoda dark aur opaque kiya header fix ke liye */
 
             /* Light Theme */
             --bg-color-light: #f1f5f9;
@@ -32,7 +32,7 @@
             --shadow-color-light: rgba(14, 165, 233, 0.15);
             --glow-color-light: rgba(14, 165, 233, 0.2);
             --section-title-bg-light: #f1f5f9;
-            --nav-bg-light: rgba(241, 245, 249, 0.8);
+            --nav-bg-light: rgba(241, 245, 249, 0.95);
         }
 
         html {
@@ -117,9 +117,12 @@
         }
 
         .nav-right { display: flex; align-items: center; gap: 35px; }
+        
+        /* Specific selector to ensure it works on desktop */
         nav .nav-links { list-style: none; display: flex; gap: 35px; margin: 0; padding: 0;}
         nav .nav-links li a { text-decoration: none; color: var(--text-color-dark); font-weight: 600; transition: color 0.3s; }
         nav .nav-links li a:hover { color: var(--accent-color); }
+        
         .hamburger { display: none; cursor: pointer; }
         .hamburger div { width: 25px; height: 3px; background-color: var(--text-color-dark); margin: 5px; transition: all 0.3s ease; }
         
@@ -228,20 +231,13 @@
             color: #fff;
         }
 
-        /* ************************************ */
-        /* ******** FIX FOR HERO IMAGE ********* */
-        /* ************************************ */
         .hero-image { 
-            /* Fixed dimensions for the circle on desktop */
             width: 400px; 
             height: 400px;
-            /* Use flex-shrink: 0 to prevent it from shrinking */
-            /* Use flex-basis to reserve space */
             flex: 0 0 400px; 
             text-align: center; 
             aspect-ratio: 1 / 1; 
             overflow: hidden; 
-            /* Align the image container to the right within the flex parent */
             margin-left: auto; 
             margin-right: 0; 
         }
@@ -255,8 +251,6 @@
             border: 5px solid var(--border-color);
             transition: border-color 0.5s;
         }
-        /* ************************************ */
-        /* ************************************ */
 
         section { padding: 120px 0; }
         
@@ -391,16 +385,16 @@
             position: relative; 
             overflow: hidden; 
             border-radius: 8px;
-            height: 350px; /* Consistent height for all project images */
+            height: 350px;
         }
         .project-image img { 
             width: 100%; 
             height: 100%;
             display: block; 
             transition: transform 0.4s ease;
-            object-fit: contain; /* MODIFIED: Changed from cover to contain for the logo */
-            padding: 1rem; /* ADDED: Padding to give the logo some space */
-            box-sizing: border-box; /* ADDED: Ensures padding is included in the element's total width and height */
+            object-fit: contain; 
+            padding: 1rem; 
+            box-sizing: border-box; 
         }
         .project:hover .project-image img { transform: scale(1.05); }
         .project-image .overlay {
@@ -412,16 +406,30 @@
         .overlay i { font-size: 3em; color: var(--accent-color); }
         .project-text { flex: 1.2; }
         .project-text h3 { font-family: 'Playfair Display', serif; font-size: 2em; }
-        .project-text .tags { margin: 20px 0; }
+        
         .project-text .tags span {
-            background-color: rgba(56, 189, 248, 0.1); color: var(--accent-color);
-            padding: 6px 12px; border-radius: 15px; font-size: 0.9em;
-            margin-right: 8px; font-weight: 600;
+            background-color: rgba(56, 189, 248, 0.1); 
+            color: var(--accent-color);
+            padding: 6px 12px; 
+            border-radius: 15px; 
+            font-size: 0.9em;
+            margin-right: 8px; 
+            font-weight: 600;
+            display: inline-block; 
+            margin-bottom: 10px;
         }
+        
         .project-text .project-links a { 
-            color: var(--accent-color); text-decoration: none; font-weight: 600;
-            margin-right: 20px; border: 1px solid var(--accent-color);
-            padding: 8px 15px; border-radius: 5px; transition: all 0.3s;
+            color: var(--accent-color); 
+            text-decoration: none; 
+            font-weight: 600;
+            margin-right: 20px; 
+            border: 1px solid var(--accent-color);
+            padding: 8px 15px; 
+            border-radius: 5px; 
+            transition: all 0.3s;
+            display: inline-block;
+            margin-top: 5px;
         }
         .project-text .project-links a:hover { 
             background-color: var(--accent-color); color: #fff;
@@ -511,7 +519,11 @@
             body { cursor: auto; }
 
             .nav-container { padding: 0 20px; }
-            .nav-links { display: none; }
+            
+            /* ---- FIX: Hiding Desktop Menu Correctly ---- */
+            /* Use nav .nav-links with !important to override desktop styles */
+            nav .nav-links { display: none !important; }
+            
             .nav-right { gap: 20px; }
             .hamburger { display: block; z-index: 1002; }
             
@@ -570,32 +582,40 @@
                 visibility: visible;
             }
 
-            /* FIX: Ensure flex direction is always column for projects on mobile */
+            /* --- PROJECT FIX START --- */
+            
+            /* 1. Force Column Layout & Auto Height */
             .hero, .project, .project:nth-child(even) { 
-                flex-direction: column; 
+                flex-direction: column !important; 
+                height: auto !important; 
+                align-items: flex-start; 
+                display: flex !important;
             }
             
-            /* FIX: Add gap between items in the project card */
             .project { 
                 padding: 30px 20px; 
-                gap: 20px; /* Space between image and text */
+                gap: 25px; /* Added proper gap */
             }
 
-            /* FIX: Reset width and fix image height so it doesn't push text */
+            /* 2. Fix Image Container - Prevent Shrinking */
             .project-image {
-                width: 100%;
-                height: 250px; /* Smaller height for mobile */
+                width: 100% !important;
+                height: 250px !important; 
+                flex: 0 0 250px !important; /* Critical Fix: Stops shrinking */
                 margin-bottom: 10px;
             }
 
+            /* 3. Text Container Adjustment */
             .project-text {
-                width: 100%;
+                width: 100% !important;
+                flex: 1 1 auto;
             }
 
-            /* FIX: Reduce font size for mobile to prevent overflow */
             .project-text h3 {
                 font-size: 1.6em;
+                margin-top: 0;
             }
+            /* --- PROJECT FIX END --- */
 
             .hero { padding-top: 100px; text-align: center; }
             .hero-text h1 { font-size: 3em; }
@@ -618,11 +638,10 @@
             .toggle .line2 { opacity: 0; }
             .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
             
-            /* Responsive update for hero image on small screens (FIXED) */
+            /* Responsive update for hero image on small screens */
             .hero-image {
                 width: 250px; 
                 height: 250px;
-                /* Center the image on mobile screens */
                 margin: 30px auto 0 auto; 
                 flex: 0 0 250px; 
             }
@@ -661,6 +680,14 @@
                 </div>
             </div>
            </nav>
+           
+           <ul class="mobile-nav-menu">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+           </ul>
     </header>
 
     <main>
@@ -834,7 +861,7 @@
                         <h3>Intermediate (12th)</h3>
                         <p class="institution">Shivam Convent</p>
                         <p class="score">Scored 66%</p>
-                        <span class="year">Year: 2020</span>
+                        <span class="year">2020</span>
                     </div>
                 </div>
 
@@ -844,7 +871,7 @@
                         <h3>Matriculation (10th)</h3>
                         <p class="institution">BD Public School</p>
                         <p class="score">Scored 61%</p>
-                        <span class="year">Year: 2018</span>
+                        <span class="year">2018</span>
                     </div>
                 </div>
 
