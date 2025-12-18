@@ -503,6 +503,9 @@
             }
         }
 
+        /* ---------------------------------------------------- */
+        /* ------ FIXED MOBILE RESPONSIVENESS HERE ----------- */
+        /* ---------------------------------------------------- */
         @media (max-width: 768px) {
             .cursor { display: none; }
             body { cursor: auto; }
@@ -567,8 +570,33 @@
                 visibility: visible;
             }
 
-            .hero, .project, .project:nth-child(even) { flex-direction: column; }
-            .project { padding: 25px; }
+            /* FIX: Ensure flex direction is always column for projects on mobile */
+            .hero, .project, .project:nth-child(even) { 
+                flex-direction: column; 
+            }
+            
+            /* FIX: Add gap between items in the project card */
+            .project { 
+                padding: 30px 20px; 
+                gap: 20px; /* Space between image and text */
+            }
+
+            /* FIX: Reset width and fix image height so it doesn't push text */
+            .project-image {
+                width: 100%;
+                height: 250px; /* Smaller height for mobile */
+                margin-bottom: 10px;
+            }
+
+            .project-text {
+                width: 100%;
+            }
+
+            /* FIX: Reduce font size for mobile to prevent overflow */
+            .project-text h3 {
+                font-size: 1.6em;
+            }
+
             .hero { padding-top: 100px; text-align: center; }
             .hero-text h1 { font-size: 3em; }
 
@@ -669,8 +697,17 @@
                         <span>JavaScript</span>
                         <span>Google Maps API</span>
                     </div>
+                    
                     <div class="project-links" style="margin-top: 20px;">
-                         <a href="https://quickserve-live.onrender.com/" target="_blank">Live Demo <i class="fab fa-github"></i></a>
+                        
+                         <a href="https://quickserve-live.onrender.com" target="_blank">
+                             Live Demo <i class="fas fa-external-link-alt"></i>
+                         </a>
+
+                         <a href="https://github.com/letsmailsarthak23-byte/quickserve-live" target="_blank" style="margin-left: 10px;">
+                             View Code <i class="fab fa-github"></i>
+                         </a>
+
                     </div>
                 </div>
             </div>
